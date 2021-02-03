@@ -1,7 +1,7 @@
 /*
 file name: array circular Queue
 author: jinnyfruit
-modified: 02.04, 2021
+modified: 02.04,2021
 */
 #include <stdlib.h>
 #include <stdio.h>
