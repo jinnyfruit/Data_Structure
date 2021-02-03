@@ -30,8 +30,8 @@ int main(){
         while(1){
         printf("1.INIT 2.PUSH 3.POP 4.PEEK 5.SHOW 6.EXIT\n");
         scanf("%d",&choice);
-        if(choice=='6'){
-            printf("EXITED");
+        if(choice==6){
+            printf("EXITED\n");
             break;
         }
          else{   
