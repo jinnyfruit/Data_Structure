@@ -18,7 +18,6 @@ typedef struct Circular_Queue{
 
 void QueueInit(CQ * cq);
 int isQEmpty(CQ * cq);
-int nextPosInx(int pos);
 void Enqueue(CQ* cq, int data);
 int Dequeue(CQ * cq);
 int peek(CQ * cq);
@@ -87,13 +86,6 @@ int isQEmpty(CQ * cq){
     }
     else
         return 0;
-}
-
-int nextPosInx(int pos){
-    if(pos==MAX-1)
-        return 0;
-    else 
-        return pos+1;
 }
 
 void Enqueue(CQ* cq, int data){
