@@ -6,7 +6,7 @@ modified: 02.04,2021
 #include <stdlib.h>
 #include <stdio.h>
 
-#define MAX 100
+#define MAX 3
 
 typedef struct Circular_Queue{
     int front;

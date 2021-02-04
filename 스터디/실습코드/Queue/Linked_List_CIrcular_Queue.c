@@ -6,8 +6,6 @@ modified: 02.04, 2021
 #include <stdlib.h>
 #include <stdio.h>
 
-#define MAX 100
-
 typedef struct NODE{
     int data;
     struct NODE* next;

@@ -14,7 +14,7 @@ typedef struct NODE{
 
 typedef struct LIST_STACK
 {
-   Node* head;
+   Node* head;  //top
 }Stack;
 
 
