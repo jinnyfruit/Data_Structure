@@ -1,11 +1,11 @@
 /*
 file name: array stack
 author: jinnyfruit
-modified: 01.26, 2021
+modified: 03.09, 2021
 */
 #include <stdio.h>
 #include <stdlib.h>
-#define MAX 100
+#define MAX 10
 
 typedef struct array_stack
 {
@@ -16,6 +16,7 @@ typedef struct array_stack
 //function prototype
 void stackInit(Stack*);
 int Stack_Empty(Stack*);
+int Stack_full(Stack*);
 void push(Stack*, int);
 int pop(Stack*);
 int peek(Stack*);
@@ -41,21 +42,30 @@ int main(){
                     printf("Stack is ready to use.\n");
                     break;
                 case 2:
-                    printf("type a integer you want to push:\n");
-                    scanf("%d",&data);
-                    push(&stack,data);
+                    if(Stack_full(&stack)==1)
+                        printf("Stack is full\n");
+                    else{
+                        printf("type a integer you want to push:\n");
+                        scanf("%d",&data);
+                        push(&stack,data);
+                    }
                     break;
                 case 3:
                     data=pop(&stack);
                     printf("deleted data:%d\n",data);
                     break;
                 case 4:
+                     if(stack.topindex==-1){//defensive coding
+                        printf("Stack is empty!\n");
+                    }
+                    else{
                     data=peek(&stack);
                     printf("peek:%d\n",data);
+                    }
                     break;
                 case 5:
                     if(stack.topindex==-1){//defensive coding
-                        printf("Stack is empty!");
+                        printf("Stack is empty!\n");
                     }
                     else{
                         for(i=stack.topindex;0<=i;i--){     //shows the data from top of the stack
@@ -82,6 +92,13 @@ int Stack_Empty(Stack* stack){
     if(stack->topindex==-1)     //if topindex is -1, stack is never been used.
         return 1;
     else
+        return 0;
+}
+
+int Stack_full(Stack* stack){
+    if(stack->topindex==9)
+        return 1;
+    else 
         return 0;
 }
 

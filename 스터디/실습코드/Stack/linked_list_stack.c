@@ -20,7 +20,7 @@ typedef struct LIST_STACK
 
 //function prototype
 void stackInit(Stack*);
-int IsStackEmpty(Stack*);
+int Stack_Empty(Stack*);
 void push(Stack*, int);
 int pop(Stack*);
 int peek(Stack*);
@@ -65,7 +65,7 @@ int main(){
                     }
                     break;
                 case 5:
-                    if(IsStackEmpty(&stack)){//defensive coding
+                    if(Stack_Empty(&stack)){//defensive coding
                         printf("Stack is empty!");
                     }
                     else{
@@ -91,7 +91,7 @@ void stackInit(Stack* stack){
     stack->head=NULL;     //initialize head pointer to NULL
 }
 
-int IsStackEmpty(Stack* stack){
+int Stack_Empty(Stack* stack){
     
     if(stack->head==NULL)     //if head is NULL, stack is never been used.
         return 1;
@@ -111,7 +111,7 @@ int pop(Stack* stack){
     int delData;
     Node* delNode;
 
-    if(IsStackEmpty==NULL){     //if stack is empty, print error!
+    if(Stack_Empty==NULL){     //if stack is empty, print error!
         printf("Stack Memory Error!");
         exit(-1);
     }
@@ -125,7 +125,7 @@ int pop(Stack* stack){
 }
 int peek(Stack* stack){
 
-    if(IsStackEmpty(stack)){
+    if(Stack_Empty(stack)){
         printf("Stack Memory Error!");
         return -1;
     }
