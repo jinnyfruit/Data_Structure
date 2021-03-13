@@ -1,23 +1,22 @@
 /*
-file name: Linked List circular Queue
+file name: array circular Queue
 author: jinnyfruit
-modified: 02.04, 2021
+modified: 02.04,2021
 */
 #include <stdlib.h>
 #include <stdio.h>
 
-typedef struct NODE{
-    int data;
-    struct NODE* next;
-}Node;
+#define MAX 3
 
 typedef struct Circular_Queue{
-    Node* front;
-    Node* rear;
+    int front;
+    int rear;
+    int arrQueque[MAX];
 }CQ;
 
 void QueueInit(CQ * cq);
-int isQEmpty(CQ * cq);
+int queue_empty(CQ * cq);
+int nextPosInx(int pos);
 void Enqueue(CQ* cq, int data);
 int Dequeue(CQ * cq);
 int peek(CQ * cq);
@@ -54,14 +53,11 @@ int main(){
                     printf("peek:%d\n",data);
                     break;
                 case 5:
-                    if(isQEmpty(&cq))
+                    if(queue_empty(&cq))
                         printf("Queue is empty!");
                     else{
-                        CQ ptr;
-                        ptr.front=cq.front;
-                        while(ptr.front!=NULL){
-                            printf("%d\t",ptr.front->data);
-                            ptr.front=ptr.front->next;
+                        for(i=cq.front+1;i<=cq.rear;i++){
+                            printf("%d\t",cq.arrQueque[i]);
                         }
                         printf("\n");
                     }
@@ -76,53 +72,47 @@ int main(){
 }
 
 void QueueInit(CQ * cq){    //queque initialization
-    cq->front=NULL;
-    cq->rear=NULL;
+    cq->front=0;
+    cq->rear=0;
 }
 
-int isQEmpty(CQ * cq){
-    if(cq->front==NULL){    //if queue is empty, return 1
+int queue_empty(CQ * cq){
+    if(cq->front==cq->rear){    //if queue is empty, return 1
         return 1;
     }
     else
         return 0;
 }
 
-void Enqueue(CQ* cq, int data){
-    Node * node=(Node*)malloc(sizeof(Node));    //동적할당을 이용해서 노드 생성
-    node->next=NULL;    //initialization of next
-    node->data=data;
+int nextPosInx(int pos){
+    if(pos==MAX-1)
+        return 0;
+    else 
+        return pos+1;
+}
 
-    if(isQEmpty(cq)){
-        cq->front = node;
-        cq->rear = node;
+void Enqueue(CQ* cq, int data){
+    if(nextPosInx(cq->rear)==cq->front){    //if queue is full
+        printf("Queue Memory error!");
+        exit(-1);
     }
-    else{
-        cq->rear->next = node;  //linking prev node and cur node
-        cq->rear = node;    //rear is pointing new node
-    }
+    cq->rear = nextPosInx(cq->rear);    //move rear
+    cq->arrQueque[cq->rear] = data;     //sava data in the space that rear is pointing
 }
 
 int Dequeue(CQ * cq){
-    Node* delnode;
-    int deldata;
-
-    if(isQEmpty(cq)){
+    if(queue_empty(cq)){
         printf("Queue Memory Error!");
         exit(-1);
     }
-    delnode = cq->front;    //save the address of delnode
-    deldata = delnode->data;   //save the data of delnode
-    cq->front = cq->front->next;    //change front value
-
-    free(delnode);
-    return deldata;
+    cq->front = nextPosInx(cq->front);
+    return cq->arrQueque[cq->front];
 }
 
 int peek(CQ * cq){
-    if(isQEmpty(cq)){
+    if(queue_empty(cq)){
         printf("Queue Memory Error!");
         exit(-1);
     }
-    return cq->front->data;
+    return cq->arrQueque[nextPosInx(cq->front)];
 }
