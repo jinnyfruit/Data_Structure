@@ -8,21 +8,21 @@ modified: 02.04,2021
 
 #define MAX 3
 
-typedef struct Circular_Queue{
+typedef struct Queue{
     int front;
     int rear;
     int arrQueque[MAX];
-}CQ;
+}Q;
 
-void QueueInit(CQ * cq);
-int queue_empty(CQ * cq);
+void QueueInit(Q * cq);
+int queue_empty(Q * cq);
 int nextPosInx(int pos);
-void Enqueue(CQ* cq, int data);
-int Dequeue(CQ * cq);
-int peek(CQ * cq);
+void Enqueue(Q* cq, int data);
+int Dequeue(Q * cq);
+int peek(Q * cq);
 
 int main(){
-    CQ cq;
+    Q cq;
     int choice;
     int i,data;
 
@@ -71,12 +71,12 @@ int main(){
     return 0;
 }
 
-void QueueInit(CQ * cq){    //queque initialization
+void QueueInit(Q * cq){    //queque initialization
     cq->front=0;
     cq->rear=0;
 }
 
-int queue_empty(CQ * cq){
+int queue_empty(Q * cq){
     if(cq->front==cq->rear){    //if queue is empty, return 1
         return 1;
     }
@@ -91,7 +91,7 @@ int nextPosInx(int pos){
         return pos+1;
 }
 
-void Enqueue(CQ* cq, int data){
+void Enqueue(Q* cq, int data){
     if(nextPosInx(cq->rear)==cq->front){    //if queue is full
         printf("Queue Memory error!");
         exit(-1);
@@ -100,7 +100,7 @@ void Enqueue(CQ* cq, int data){
     cq->arrQueque[cq->rear] = data;     //sava data in the space that rear is pointing
 }
 
-int Dequeue(CQ * cq){
+int Dequeue(Q * cq){
     if(queue_empty(cq)){
         printf("Queue Memory Error!");
         exit(-1);
@@ -109,7 +109,7 @@ int Dequeue(CQ * cq){
     return cq->arrQueque[cq->front];
 }
 
-int peek(CQ * cq){
+int peek(Q * cq){
     if(queue_empty(cq)){
         printf("Queue Memory Error!");
         exit(-1);

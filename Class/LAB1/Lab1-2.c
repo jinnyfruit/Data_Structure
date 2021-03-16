@@ -8,16 +8,16 @@ modified: 03.10,2021
 
 #define MAX 10
 
-typedef struct Circular_Queue{
+typedef struct Queue{
     int front;
     int rear;
     int arrQueque[MAX];
-}CQ;
+}Q;
 
 
 
 int main(){
-    CQ cq;
+    Q cq;
     int choice;
     int i,data;
 
@@ -71,12 +71,12 @@ int main(){
     return 0;
 }
 
-void QueueInit(CQ * cq){    //queque initialization
+void QueueInit(Q * cq){    //queque initialization
     cq->front=-1;
     cq->rear=-1;
 }
 
-int queue_empty(CQ * cq){
+int queue_empty(Q * cq){
     if(cq->front==cq->rear){    //if queue is empty, return 1
         return 1;   
     }  
@@ -84,7 +84,7 @@ int queue_empty(CQ * cq){
         return 0;
 }
 
-int queue_full(CQ * cq){
+int queue_full(Q * cq){
     if(cq->rear==9) 
         return 1;
     else
@@ -92,7 +92,7 @@ int queue_full(CQ * cq){
 }
 
 
-void Enqueue(CQ* cq, int data){
+void Enqueue(Q* cq, int data){
   if(queue_full(cq)==1){
       printf("Queue is full\n");
   }
@@ -103,12 +103,12 @@ void Enqueue(CQ* cq, int data){
   }
 }
 
-int Dequeue(CQ * cq){
+int Dequeue(Q * cq){
     cq->front+=1;
     int data = cq->arrQueque[cq->front];
     return data; 
 }
-int peek(CQ * cq){
+int peek(Q * cq){
     if(queue_empty(cq)){
         printf("Queue is empty!");
         exit(-1);

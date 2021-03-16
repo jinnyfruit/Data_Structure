@@ -11,19 +11,19 @@ typedef struct NODE{
     struct NODE* next;
 }Node;
 
-typedef struct Circular_Queue{
+typedef struct Queue{
     Node* front;
     Node* rear;
-}CQ;
+}Q;
 
-void QueueInit(CQ * cq);
-int queue_empty(CQ * cq);
-void Enqueue(CQ* cq, int data);
-int Dequeue(CQ * cq);
-int peek(CQ * cq);
+void QueueInit(Q * cq);
+int queue_empty(Q * cq);
+void Enqueue(Q* cq, int data);
+int Dequeue(Q * cq);
+int peek(Q * cq);
 
 int main(){
-    CQ cq;
+    Q cq;
     int choice;
     int i,data;
 
@@ -57,7 +57,7 @@ int main(){
                     if(queue_empty(&cq))
                         printf("Queue is empty!");
                     else{
-                        CQ ptr;
+                        Q ptr;
                         ptr.front=cq.front;
                         while(ptr.front!=NULL){
                             printf("%d\t",ptr.front->data);
@@ -75,12 +75,12 @@ int main(){
     return 0;
 }
 
-void QueueInit(CQ * cq){    //queque initialization
+void QueueInit(Q * cq){    //queque initialization
     cq->front=NULL;
     cq->rear=NULL;
 }
 
-int queue_empty(CQ * cq){
+int queue_empty(Q * cq){
     if(cq->front==NULL){    //if queue is empty, return 1
         return 1;
     }
@@ -88,7 +88,7 @@ int queue_empty(CQ * cq){
         return 0;
 }
 
-void Enqueue(CQ* cq, int data){
+void Enqueue(Q* cq, int data){
     Node * node=(Node*)malloc(sizeof(Node));    //동적할당을 이용해서 노드 생성
     node->next=NULL;    //initialization of next
     node->data=data;
@@ -103,7 +103,7 @@ void Enqueue(CQ* cq, int data){
     }
 }
 
-int Dequeue(CQ * cq){
+int Dequeue(Q * cq){
     Node* delnode;
     int deldata;
 
@@ -119,7 +119,7 @@ int Dequeue(CQ * cq){
     return deldata;
 }
 
-int peek(CQ * cq){
+int peek(Q * cq){
     if(queue_empty(cq)){
         printf("Queue Memory Error!");
         exit(-1);
