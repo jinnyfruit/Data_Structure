@@ -1,159 +1,124 @@
- #include <stdio.h>
+/*
+file name: 1-4
+author: Ji Woo Kim
+modified: 03.16, 2021
+*/
+#include <stdio.h>
+#include <stdlib.h>
+#define MAX 10
 
-#define SIZE 10
-
-int queue1[SIZE], queue2[SIZE];
-int front1 = -1, rear1 = -1, front2 = -1, rear2 = -1;
-
-int main(void)
+typedef struct array_stack
 {
-	void view();//Stack viewer function
-	int stack_full();//Check the stack is full(Stack means two queue)
-	int stack_empty();//Check the stack is empty(Stack means two queue)
-	int queue2_empty();//Check the queue1 is empty*/
-	void enqueue1(int value);//Enqueue value in queue1
-	void enqueue2(int value);//Enqueue value in queue2
-	int dequeue1();//Dequeue of the queue1
-	int dequeue2();//Dequeue of the queue2
-	int popProcess();//Process of pop
+    int data[MAX];
+    int topindex;   //checks the location of last data
+}Stack;
 
-	int choose, value;
 
-	while (1) {
+int Stack_Empty(Stack* stack);
+void push(Stack* stack, int data );
+int pop(Stack* stack);
+int queue_full(Stack* stack , Stack* stack2);
+int queue_empty(Stack* stack1, Stack * stack2);
+int enqueue(Stack* stack1,int data);
+int dequeue(Stack* stack1, Stack* stack2);
 
-		printf("\n1. push 2. pop 3. view 4.exit : ");
-		scanf("%d", &choose);
+int main(){
+    
+    Stack stack1,stack2;
+    stack1.topindex=-1;     //initialization
+    stack2.topindex=-1;
 
-		if (choose == 1) {
+    int choice;
+    int i,data;
 
-			if (stack_full()) {//defensive coding
-				printf("Stack is alreay full");
-				continue;
-			}
+       
+        while(1){
+        printf("1.Enqueue 2.Dequeue 3.EXIT \n");
+        scanf("%d",&choice);
+        if(choice==3){
+            printf("EXITED\n");
+            break;
+        }
+         else{   
+            switch(choice){
+                case 1:
+                    
+                    if(queue_full(&stack1,&stack2))
+                        printf("Queue is full!\n");
 
-			printf("Push value : ");
-			scanf("%d", &value);
-			 
-			enqueue1(value);//insert value to queue1
-		}
+                    else{
+                        printf("type an integer:");
+                        scanf("%d",&data);
 
-		else if (choose == 2) {
-
-			if (stack_empty()) {//defensive coding
-				printf("Stack is alreay empty");
-				continue;
-			}
-
-			printf("%d", popProcess());
-		}
-
-		else if (choose == 3)
-			view();
-
-		else if (choose == 4)
-			break;
-
-		else
-			printf("error");
-	}
+                        push(&stack1,data);
+                    }
+                    break;
+                case 2:
+                    
+                    if(queue_empty(&stack1,&stack2)){
+                        printf("Queue is empty!");
+                    }
+                    else 
+                        printf("deleted data: %d\n",dequeue(&stack1,&stack2));
+                    break;
+                default :
+                    printf("Try again\n");
+                    break;
+            }
+    }
+        }
+    return 0;
 }
 
-/*Stack viewer function*/
-void view()
-{
-	int i;
-
-	for (i = front1; i <= rear1; i++)
-		printf("%d ", queue1[i]);
-	printf("\n");
+int Stack_Empty(Stack* stack){
+    
+    if(stack->topindex==-1)     //if topindex is -1, stack is never been used.
+        return 1;
+    else
+        return 0;
 }
 
-/*Check the stack is full(Stack means two queue)*/
-int stack_full()
-{
-	if (rear1 - front1 == SIZE - 1)
-		return 1;
-
-	else
-		return 0;
+void push(Stack* stack, int data){
+    stack->topindex+=1;     //increase topindex
+    stack->data[stack->topindex]=data;      //save the data
+}
+int pop(Stack* stack){
+    int delData=stack->data[stack->topindex];
+    stack->topindex-=1;
+    return delData;
 }
 
-/*Check the stack is empty(Stack means two queue)*/
-int stack_empty()
-{
-	if (front1 > rear1 || front1 == -1)//no data Or first time
-		return 1;
-
-	else
-		return 0;
+int queue_full(Stack* stack1, Stack* stack2){
+    if(stack1->topindex + stack2 -> topindex +2==MAX)
+        return 1;
+    else 
+        return 0;
 }
 
-/*Check the queue1 is empty*/
-int queue2_empty()
-{
-	if (front2 > rear2 || front2 == -1)//no data Or first time
-		return 1;
+int queue_empty(Stack* stack1, Stack* stack2){
+     if (stack1->topindex == -1 && stack2->topindex == -1)
+        return 1;
 
-	else
-		return 0;
+    else
+        return 0;
 }
 
-/*Enqueue value in queue1*/
-void enqueue1(int value)
-{
-	rear1++;
-
-	if (front1 == -1)//first time insert of queue
-		front1++;
-
-	queue1[rear1] = value;
+int enqueue(Stack* stack1,int data){
+    push(stack1,data);
 }
 
-/*Enqueue value in queue2*/
-void enqueue2(int value)
-{
-	rear2++;
+int dequeue(Stack* stack1, Stack* stack2) {
 
-	if (front2 == -1)//first time insert of queue
-		front2++;
+   int deldata;
+   
+    if((Stack_Empty(stack1)!=1 && Stack_Empty(stack2)!=1)||(Stack_Empty(stack1)==1&&Stack_Empty(stack2)!=1))
+        deldata = pop(stack2);
+    else if(Stack_Empty(stack1)!=1 && Stack_Empty(stack2)==1){
+        while(Stack_Empty(stack1)!=1){
+            push(stack2,pop(stack1));
+        }
+        deldata = pop(stack2);
+    }
 
-	queue2[rear2] = value;
-}
-
-/*Dequeue of the queue1*/
-int dequeue1()
-{
-	int returnValue;
-
-	returnValue = queue1[front1];
-
-	front1++;
-	return returnValue;
-}
-
-/*Dequeue of the queue2*/
-int dequeue2()
-{
-	int returnValue;
-
-	returnValue = queue2[front2];
-
-	front2++;
-	return returnValue;
-}
-
-/*Process of pop*/
-int popProcess()
-{
-	int returnValue;
-
-	while (front1 != rear1)//instead queue1_empty()-1
-		enqueue2(dequeue1());
-
-	returnValue = dequeue1();
-
-	while (!queue2_empty())
-		enqueue1(dequeue2());//queue2 pop and push in queue1
-
-	return returnValue;
+    return deldata;
 }
